@@ -43,7 +43,10 @@ children      | Node   | null      | optional Icon component if react-native-vec
   };
 ```
 
-## Example (TODO)
+## Example
+
+![giphy](https://user-images.githubusercontent.com/26876671/46575495-44448a80-c9e0-11e8-9237-09ebae799553.gif)
+
 
 ## Contributing
 

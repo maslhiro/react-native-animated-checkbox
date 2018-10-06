@@ -4,6 +4,7 @@ import {
   Animated,
   TouchableOpacity,
   View,
+  Text,
   ViewPropTypes,
 } from 'react-native';
 /* eslint-disable import/no-extraneous-dependencies, import/no-unresolved */
@@ -22,7 +23,19 @@ const styles = {
     borderRadius: 0,
     borderWidth: 2,
   },
+  textStyle : {
+    alignSelf:'center',
+    fontWeight:'normal',
+    fontSize:24,
+    color:'black'
+  },
+  touchableStyle:{
+    flex:1,
+    justifyContent:'flex-end'
+  }
+
 };
+
 
 export default class Checkbox extends PureComponent {
   static propTypes = {
@@ -30,6 +43,9 @@ export default class Checkbox extends PureComponent {
     animated: PropTypes.bool,
     duration: PropTypes.number,
     style: ViewPropTypes.style,
+    text: PropTypes.string,
+    textStyle: ViewPropTypes.style,
+    touchableStyle: ViewPropTypes.style,
     color: PropTypes.string,
     iconName: PropTypes.string,
     iconSize: PropTypes.number,
@@ -43,6 +59,9 @@ export default class Checkbox extends PureComponent {
     animated: true,
     duration: 300,
     style: {},
+    text:'',
+    textStyle:{},
+    touchableStyle:{},
     color: '#F26F6F',
     iconName: 'check',
     iconSize: 15,
@@ -69,7 +88,10 @@ export default class Checkbox extends PureComponent {
         pointerEvents: this.getPointerEvents(nextProps.onPress),
       });
     }
-    if (nextProps.style !== this.props.style) { // probably doesn't work since it's not immutable
+    if (  nextProps.style !== this.props.style || 
+          nextProps.textStyle !== this.props.textStyle ||
+          nextProps.touchableStyle !== this.props.touchableStyle) 
+    { // probably doesn't work since it's not immutable
       this.setInstanceStyle(nextProps);
     }
   }
@@ -98,6 +120,16 @@ export default class Checkbox extends PureComponent {
         borderColor: props.color,
       }),
       props.style,
+    );
+
+    this.textStyle = Object.assign({},
+      Object.assign({}, styles.textStyle),
+      props.textStyle,
+    );
+
+    this.touchableStyle = Object.assign({},
+      Object.assign({}, styles.touchableStyle),
+      props.touchableStyle,
     );
   }
 
@@ -149,14 +181,17 @@ export default class Checkbox extends PureComponent {
         pointerEvents={this.state.pointerEvents}
       >
         <TouchableOpacity
+          style={this.touchableStyle}
           onPress={this.onPress}
           activeOpacity={activeOpacity}
         >
+          <Text style={this.textStyle}>{this.props.text}</Text>
           <Animated.View style={[
             styles.iconContainer, {
               opacity: this.opacity,
             }]}
           >
+         
             {IconComponent}
           </Animated.View>
         </TouchableOpacity>
